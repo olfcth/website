@@ -1,0 +1,5 @@
+<div class="event-slide">
+    <h3>{{ value.title }}</h3>
+    <p>{{ value.date|date:"F j, Y" }}{% if value.time %} | {{ value.time|time:"g:i A" }}{% endif %}</p>
+    <p>{{ value.description }}</p>
+</div>

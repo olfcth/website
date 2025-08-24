@@ -1,0 +1,23 @@
+{% extends "church/base.html" %}
+
+{% block content %}
+<h2>{{ page.title }}</h2>
+
+{% if page.introduction %}
+    {{ page.introduction|richtext }}
+{% endif %}
+
+<section class="news-notices-section">
+    <ul class="news-list">
+        {% for news_item in news_items %}
+            <li>
+                <strong>{{ news_item.date|date:"F j, Y" }}:</strong> 
+                {{ news_item.content|richtext|striptags|truncatechars:200 }}
+                {% if news_item.content|length > 200 %}
+                    <a href="#" onclick="showFullNews('{{ news_item.id }}')">Read more...</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

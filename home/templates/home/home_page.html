@@ -1,21 +1,96 @@
-{% extends "base.html" %}
+{% extends "church/base.html" %}
 {% load static %}
-
-{% block body_class %}template-homepage{% endblock %}
-
-{% block extra_css %}
-
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
-{% endblock extra_css %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 
 {% block content %}
+<!-- Hero Section -->
+<section class="hero" style="background-image: url('{% if page.hero_image %}{% image page.hero_image original %}{% else %}{% static 'images/hero-bg.jpg' %}{% endif %}'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <h1>{{ page.hero_title }}</h1>
+        <p>{{ page.hero_subtitle }}</p>
+        <div class="hero-buttons">
+            {% if page.get_children.live %}
+                {% for child in page.get_children.live %}
+                    {% if child.title == "About" %}
+                        <a href="{{ child.url }}" class="btn">Our History</a>
+                    {% elif child.title == "News" %}
+                        <a href="{{ child.url }}" class="btn btn-secondary">Latest News</a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
 
-{% comment %}
-Delete the line below if you're just getting started and want to remove the welcome screen!
-{% endcomment %}
-{% include 'home/welcome_page.html' %}
+<!-- Welcome Section -->
+<section class="welcome-section">
+    <div class="container">
+        <h2>Welcome to Our Parish</h2>
+        {% if page.welcome_content %}
+            {{ page.welcome_content|richtext }}
+        {% else %}
+            <p>Our Lady of Fatima Church is situated off the Ghodbunder Road at the Majiwada Junction. Around a thousand families reside in this parish which is divided into 24 Small Christian Communities.</p>
 
-{% endblock content %}
+            <p>Voluntary Church organizations, cells and groups such as Sodality, SVP, Senior Citizens Group, HR Cell, Family Cell, Communications Cell, Prison Ministry, Choir, Extraordinary Ministers of Holy Communion, Social Justice Cell, Legion of Mary, Pre-baptismal Catechesis Team, Lector's Ministry, Sunday School Teachers and Bombay Catholic Sabha work in assigned areas to support the Priest in Charge in Church functions.</p>
+
+            <p>A Parish Pastoral Council and an Executive Committee perform the consultative function in administrative duties of the Parish. Other committees such as the Finance Committee, Cemetery Committee are appointed to assist the Priest in Charge.</p>
+
+            <p>This site is launched with the purpose of providing a platform for communication between the church and the faithful. The communications cell is committed to keep this site updated with the current information for the benefit of the faithful and others who wish to know about our parish and its activities.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Upcoming Events Slideshow -->
+{% if page.events %}
+<section class="events-section">
+    <h2>Upcoming Events</h2>
+    <div class="events-slideshow">
+        {% for event_block in page.events %}
+            {% include_block event_block %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Gallery Slideshow -->
+{% if page.gallery_images %}
+<section class="gallery-section">
+    <h2>Parish Gallery</h2>
+    <div class="gallery-slideshow">
+        {% for gallery_block in page.gallery_images %}
+            {% include_block gallery_block %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Contact Form -->
+<section class="homepage-contact">
+    <h2>Contact Us</h2>
+    <div class="homepage-contact-flex">
+        
+        <div class="contact-address">
+            <h3>Our Address</h3>
+            {% if page.contact_address %}
+                {{ page.contact_address|richtext }}
+            {% else %}
+                <p>Our Lady of Fatima Church<br>
+                Opp. Municipal Office,<br>
+                Majiwada, Thane 400 601<br>
+                India</p>
+            {% endif %}
+
+            {% if page.contact_phone %}
+                <p><strong>Phone:</strong> {{ page.contact_phone }}</p>
+            {% endif %}
+
+            {% if page.contact_email %}
+                <p><strong>Email:</strong> {{ page.contact_email }}
+                {% if page.contact_email_secondary %}<br>{{ page.contact_email_secondary }}{% endif %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% load wagtailcore_tags %}
+<header>
+    <nav>
+        <div class="logo">
+            <a href="/">Our Lady of Fatima Church</a>
+        </div>
+        <div class="menu-toggle">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <ul>
+            <li><a href="/">Home</a></li>
+
+            <li class="dropdown">
+                <a href="#" class="dropbtn">About</a>
+                <div class="dropdown-content">
+                    {% for page in site.root_page.get_descendants %}
+                        {% if page.content_type.model == 'aboutpage' %}
+                            <a href="{{ page.url }}">About Us</a>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="/parish-council/">Parish Council</a>
+                    <a href="/mass-schedule/">Mass Schedule</a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Parish</a>
+                <div class="dropdown-content">
+                    {% for page in site.root_page.get_descendants %}
+                        {% if page.content_type.model == 'newspage' %}
+                            <a href="{{ page.url }}">News & Notices</a>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="/events/">Events</a>
+                    <a href="/ministries/">Ministries</a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Services</a>
+                <div class="dropdown-content">
+                    <a href="/mass-schedule/">Mass Schedule</a>
+                    <a href="/sacraments/">Sacraments</a>
+                    <a href="/counseling/">Counseling</a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Community</a>
+                <div class="dropdown-content">
+                    <a href="/youth/">Youth Ministry</a>
+                    <a href="/groups/">Groups</a>
+                    <a href="/volunteers/">Volunteers</a>
+                </div>
+            </li>
+
+            <li><a href="/contact/">Contact</a></li>
+        </ul>
+    </nav>
+</header>

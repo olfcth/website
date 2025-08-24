@@ -1,0 +1,3 @@
+{% load wagtailimages_tags %}
+{% image value.image width-400 as img %}
+<img src="{{ img.url }}" alt="{{ value.caption|default:value.image.title }}">
